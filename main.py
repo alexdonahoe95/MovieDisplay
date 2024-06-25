@@ -59,7 +59,7 @@ def build_poster_site(j):
         }
     </style>
 </head>
-<body>"""
+<body style="background:black;">"""
 
     # File path to save the text file
     file_name = 'index.html'
@@ -88,14 +88,53 @@ def build_individual_site(j):
                     width: 24.5vw; /* 25% of the viewport width */
                     height: auto; /* Adjust height automatically to maintain aspect ratio */
                 }
+                                img.bg {
+                  /* Set rules to fill background */
+                  min-height: 100%;
+                  min-width: 1024px;
+
+                  /* Set up proportionate scaling */
+                  width: 100%;
+                  height: auto;
+
+                  /* Set up positioning */
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                }
+
+                @media screen and (max-width: 1024px) { /* Specific to this particular image */
+                  img.bg {
+                    left: 50%;
+                    margin-left: -512px;   /* 50% */
+                  }
+                }
+                #page-wrap {
+                  position: relative;
+                  width: 400px;
+                  border-radius: 25px;
+                  /* margin: 50px auto;  */
+                  opacity: 0.85;
+                  padding: 20px;
+                  background: white;
+                  -moz-box-shadow: 0 0 20px black;
+                  -webkit-box-shadow: 0 0 20px black;
+                  box-shadow: 0 0 20px black;
+                }
+		            p { font: 15px/2 Georgia, Serif;
+                  margin: 0 0 30px 0;
+                  text-indent: 40px; }
             </style>
         </head>
         <body style="background-image: url(""" + PosterPath + x["backdrop_path"] + """);">"""
 
         # File path to save the text file
         file_name = str(x["id"]) + ".html"
+        individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>
+        <div id="page-wrap">"""
         individualSite += "<h1>" + x["original_title"] + "</h1><p>" + x["overview"] + "</p>"
-        individualSite +="</body></html>"
+
+        individualSite +="</div></body></html>"
         file_path = os.path.join(folder_name, file_name)
         try:
             with open(file_path, 'w') as file:

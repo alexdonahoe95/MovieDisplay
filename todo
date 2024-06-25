@@ -1,3 +1,50 @@
 background black or grey
 build one indiviual website
 add link to indiviual website to main page
+change html generation for individual site to align with bad boys site
+add api call for omdbapi
+convert title to omdb api consumable search
+put ratings for movie at bottom of text blob
+Rating, runtime, Director added to description
+
+
+                img.bg {
+                  /* Set rules to fill background */
+                  min-height: 100%;
+                  min-width: 1024px;
+
+                  /* Set up proportionate scaling */
+                  width: 100%;
+                  height: auto;
+
+                  /* Set up positioning */
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                }
+
+                @media screen and (max-width: 1024px) { /* Specific to this particular image */
+                  img.bg {
+                    left: 50%;
+                    margin-left: -512px;   /* 50% */
+                  }
+                }
+                #page-wrap {
+                  position: relative;
+                  width: 400px;
+                  border-radius: 25px;
+                  /* margin: 50px auto;  */
+                  opacity: 0.85;
+                  padding: 20px;
+                  background: white;
+                  -moz-box-shadow: 0 0 20px black;
+                  -webkit-box-shadow: 0 0 20px black;
+                  box-shadow: 0 0 20px black;
+                }
+		            p { font: 15px/2 Georgia, Serif;
+                  margin: 0 0 30px 0;
+                  text-indent: 40px; }
+
+
+        <img class="bg" src="https://image.tmdb.org/t/p/original//gRApXuxWmO2forYTuTmcz5RaNUV.jpg"></body></html>
+        <div id="page-wrap">
