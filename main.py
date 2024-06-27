@@ -8,11 +8,6 @@ import requests
 from bs4 import BeautifulSoup
 PosterPath = "https://image.tmdb.org/t/p/original/"
 folder_name = "website"
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
 def web_scrape(name):
     # Making a GET request
     r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
@@ -23,7 +18,7 @@ def web_scrape(name):
     s = soup.find('div', class_='text')
     content = s.find_all('p')
 
-    print(content)
+    # print(content)
 def api_movie():
     url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&region=US"
 
@@ -34,12 +29,12 @@ def api_movie():
 
     response = requests.get(url, headers=headers)
     y = json.loads(response.text)
-    AmtNearbyMovies = len(y["results"])
-    for x in y["results"]:
-        print(x["original_title"])
-        print("Poster = " + PosterPath + x["poster_path"])
-        print("Backdrop = " + PosterPath + x["backdrop_path"])
-        print(x["overview"])
+    # AmtNearbyMovies = len(y["results"])
+    # for x in y["results"]:
+    #     print(x["original_title"])
+    #     print("Poster = " + PosterPath + x["poster_path"])
+    #     print("Backdrop = " + PosterPath + x["backdrop_path"])
+    #     print(x["overview"])
     return y["results"]
 
 # Press the green button in the gutter to run the script.
@@ -51,11 +46,17 @@ def build_poster_site(j):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Image</title>
+    <title>Movie Display: Posters</title>
     <style>
         .responsive-image {
             width: 24.5vw; /* 25% of the viewport width */
             height: auto; /* Adjust height automatically to maintain aspect ratio */
+        }
+        @media screen and (max-width: 1024px) { /* Specific to this particular image */
+            .responsive-image {
+                width: 23.8vw; /* 25% of the viewport width */
+                height: auto; /* Adjust height automatically to maintain aspect ratio */
+            }
         }
     </style>
 </head>
@@ -76,13 +77,21 @@ def build_poster_site(j):
 
     print(f'Text has been saved to {file_path}')
 def build_individual_site(j):
+
+
     for x in j:
+        r = requests.get('http://www.omdbapi.com/?t=' + x["original_title"] + '&apikey=1a8842a0')
+
+        # Parsing the HTML
+        y = json.loads(r.text)
+
+
         individualSite = """<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Responsive Image</title>
+            <title>Movie Display</title>
             <style>
                 .responsive-image {
                     width: 24.5vw; /* 25% of the viewport width */
@@ -103,15 +112,11 @@ def build_individual_site(j):
                   left: 0;
                 }
 
-                @media screen and (max-width: 1024px) { /* Specific to this particular image */
-                  img.bg {
-                    left: 50%;
-                    margin-left: -512px;   /* 50% */
-                  }
-                }
+
                 #page-wrap {
                   position: relative;
-                  width: 400px;
+                  margin: 50px auto;
+                  width: 40%;
                   border-radius: 25px;
                   /* margin: 50px auto;  */
                   opacity: 0.85;
@@ -122,8 +127,24 @@ def build_individual_site(j):
                   box-shadow: 0 0 20px black;
                 }
 		            p { font: 15px/2 Georgia, Serif;
-                  margin: 0 0 30px 0;
-                  text-indent: 40px; }
+                  margin: 10px 0 30px 0;
+                  }
+                  
+                  .inline-text {
+                    display: inline;
+                    margin-left: 10px; /* Adjust the spacing as needed */
+                    font: 15px/2 Georgia, Serif;
+
+               }
+               @media screen and (max-width: 1024px) { /* Specific to this particular image */
+                #page-wrap{
+                    width:90%;
+                }
+                  img.bg {
+                    left: 50%;
+                    margin-left: -512px;   /* 50% */
+                  }
+                }
             </style>
         </head>
         <body style="background-image: url(""" + PosterPath + x["backdrop_path"] + """);">"""
@@ -132,21 +153,46 @@ def build_individual_site(j):
         file_name = str(x["id"]) + ".html"
         individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>
         <div id="page-wrap">"""
-        individualSite += "<h1>" + x["original_title"] + "</h1><p>" + x["overview"] + "</p>"
+        individualSite += "<h1>" + x["original_title"]
+
+        try:
+            individualSite += "<span class=\"inline-text\">" + y["Genre"] + "</span></h1>"
+        except:
+            print("Error on Genre for : " + x["original_title"])
+        individualSite += "</h1>"
+
+        try:
+            individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + y["Rated"] + " | Runtime: " + y["Runtime"] + "</p>"
+        except:
+            print("Error on Rated or Runtime for : " + x["original_title"])
+
+
+
+        ##add overview paragraph
+        individualSite += "<p>"+ x["overview"] + "</p>"
+        try:
+            individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + y["Director"] + " | Written By: " + y["Writer"] + "</p>"
+
+        except:
+            print("Error on Director or Writer for : " + x["original_title"])
+        try:
+            rating = y["Ratings"]
+            individualSite += "<hr></hr>"
+            for k in rating:
+                individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k["Value"] +"</p>"
+        except:
+            print("Error on Ratings for: " + x["original_title"])
 
         individualSite +="</div></body></html>"
         file_path = os.path.join(folder_name, file_name)
         try:
-            with open(file_path, 'w') as file:
+            with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(individualSite)
         except:
-            print("error found" + x["original_title"])
-            print(file_path)
-            print(individualSite)
+            print("Error for file_path : " + x["original_title"])
 
-
-    print("nothing")
 if __name__ == '__main__':
+
     # Check if the folder exists, if not, create it
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
@@ -155,5 +201,3 @@ if __name__ == '__main__':
     build_poster_site(jason)
     build_individual_site(jason)
 
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
