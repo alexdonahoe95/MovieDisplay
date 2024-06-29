@@ -6,8 +6,11 @@ import json
 import os
 import requests
 from bs4 import BeautifulSoup
+
 PosterPath = "https://image.tmdb.org/t/p/original/"
 folder_name = "website"
+
+
 def web_scrape(name):
     # Making a GET request
     r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
@@ -19,6 +22,8 @@ def web_scrape(name):
     content = s.find_all('p')
 
     # print(content)
+
+
 def api_movie():
     url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&region=US"
 
@@ -37,9 +42,9 @@ def api_movie():
     #     print(x["overview"])
     return y["results"]
 
+
 # Press the green button in the gutter to run the script.
 def build_poster_site(j):
-
     # Text to save
     posterSite = """<!DOCTYPE html>
 <html lang="en">
@@ -67,31 +72,34 @@ def build_poster_site(j):
 
     # Open the file in write mode and save the text
     for x in j:
-        posterSite += "<a href=" + str(x["id"]) + ".html""><img src=" + PosterPath + x["poster_path"] + """alt="Description of image" class="responsive-image"></a>"""
+        posterSite += "<a href=" + str(x["id"]) + ".html""><img src=" + PosterPath + x[
+            "poster_path"] + """alt="Description of image" class="responsive-image"></a>"""
 
     posterSite += "</body></html>"
     file_path = os.path.join(folder_name, file_name)
     with open(file_path, 'w') as file:
         file.write(posterSite)
 
-
     print(f'Text has been saved to {file_path}')
+
+
 def build_individual_site(j):
-
-
     for x in j:
         r = requests.get('http://www.omdbapi.com/?t=' + x["original_title"] + '&apikey=1a8842a0')
 
         # Parsing the HTML
         y = json.loads(r.text)
 
+        q = requests.get('https://api.kinocheck.de/movies?tmdb_id=' + str(x["id"]) + '&categories=Trailer')
+
+        # Parsing the HTML
+        z = json.loads(q.text)
 
         individualSite = """<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Movie Display</title>
             <style>
                 .responsive-image {
                     width: 24.5vw; /* 25% of the viewport width */
@@ -111,6 +119,22 @@ def build_individual_site(j):
                   top: 0;
                   left: 0;
                 }
+                .button {
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: black;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: bold;
+}
 
 
                 #page-wrap {
@@ -136,7 +160,66 @@ def build_individual_site(j):
                     font: 15px/2 Georgia, Serif;
 
                }
+               /* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 700px; /* Could be more or less, depending on screen size */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: animatetop 0.4s;
+    height: 66%;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Close button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    background-color: red;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-container {
+    padding: 20px;
+    text-align: center;
+    height: 65%;
+}
                @media screen and (max-width: 1024px) { /* Specific to this particular image */
+               .modal-content {
+                    height:33%
+               }
                 #page-wrap{
                     width:90%;
                 }
@@ -150,6 +233,7 @@ def build_individual_site(j):
         <body style="background-image: url(""" + PosterPath + x["backdrop_path"] + """);">"""
 
         # File path to save the text file
+        individualSite += "<title>" + x["original_title"] + "</title>"
         file_name = str(x["id"]) + ".html"
         individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>
         <div id="page-wrap">"""
@@ -162,16 +246,16 @@ def build_individual_site(j):
         individualSite += "</h1>"
 
         try:
-            individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + y["Rated"] + " | Runtime: " + y["Runtime"] + "</p>"
+            individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + y[
+                "Rated"] + " | Runtime: " + y["Runtime"] + "</p>"
         except:
             print("Error on Rated or Runtime for : " + x["original_title"])
 
-
-
         ##add overview paragraph
-        individualSite += "<p>"+ x["overview"] + "</p>"
+        individualSite += "<p>" + x["overview"] + "</p>"
         try:
-            individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + y["Director"] + " | Written By: " + y["Writer"] + "</p>"
+            individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + y[
+                "Director"] + " | Written By: " + y["Writer"] + "</p>"
 
         except:
             print("Error on Director or Writer for : " + x["original_title"])
@@ -179,17 +263,71 @@ def build_individual_site(j):
             rating = y["Ratings"]
             individualSite += "<hr></hr>"
             for k in rating:
-                individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k["Value"] +"</p>"
+                individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k[
+                    "Value"] + "</p>"
         except:
+            individualSite += "<p> No Review information found for this movie"
             print("Error on Ratings for: " + x["original_title"])
 
-        individualSite +="</div></body></html>"
+        try:
+            youtubeLink = "https://www.youtube.com/embed/" + z['trailer']['youtube_video_id']
+            individualSite += """    <button id="openModalBtn" class="button">Watch The Trailer</button>"""
+        except:
+            print("Error on youtube link for : " + x["original_title"])
+
+        individualSite += """
+            <!-- The Modal -->
+            <div id="videoModal" class="modal" >
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="video-container">
+                        <iframe id="youtubeVideo" width="100%" height="100%" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        
+                <script>
+                // Get the modal
+        var modal = document.getElementById("videoModal");
+        
+        // Get the button that opens the modal
+        var btn = document.getElementById("openModalBtn");
+        
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        
+        // Get the YouTube iframe
+        var iframe = document.getElementById("youtubeVideo");
+        
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+            iframe.src = """ + "\"" + youtubeLink + "\"" + """; // Replace VIDEO_ID with your actual video ID
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+            iframe.src = ""; // Stop the video
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                iframe.src = ""; // Stop the video
+            }
+        }
+            </script></div></body></html>"""
         file_path = os.path.join(folder_name, file_name)
         try:
+
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(individualSite)
         except:
             print("Error for file_path : " + x["original_title"])
+
 
 if __name__ == '__main__':
 
@@ -200,4 +338,3 @@ if __name__ == '__main__':
     jason = api_movie()
     build_poster_site(jason)
     build_individual_site(jason)
-
