@@ -1,11 +1,8 @@
-
-trailer modal no white background
-modal no x
-video not see through
-how to full screen embed on mobile
-darken background more
 change background based on mobile = poster, desktop = backdrop
+    - would have to alter where this is set, not impossible just reoder
+Code cleanup
+
+Stretch:
 have text box be minimizable
 able to move text box to corners of the page
 code to clear website folder so unused pages don't clog it up????
-Code cleanup

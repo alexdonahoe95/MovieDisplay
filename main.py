@@ -170,19 +170,16 @@ def build_individual_site(j):
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
     position: relative;
-    background-color: #fefefe;
     margin: auto;
     padding: 0;
-    border: 1px solid #888;
     width: 80%;
     max-width: 700px; /* Could be more or less, depending on screen size */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     animation: animatetop 0.4s;
     height: 66%;
 }
@@ -195,13 +192,6 @@ def build_individual_site(j):
 
 /* Close button */
 .close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    background-color: red;
-    padding: 5px;
-    cursor: pointer;
 }
 
 .close:hover,
@@ -215,6 +205,28 @@ def build_individual_site(j):
     padding: 20px;
     text-align: center;
     height: 65%;
+}
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+}
+
+.home-button {
+    text-decoration: none;
+    color: white;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.home-button:hover {
+    background-color: #0056b3;
 }
                @media screen and (max-width: 1024px) { /* Specific to this particular image */
                .modal-content {
@@ -235,9 +247,9 @@ def build_individual_site(j):
         # File path to save the text file
         individualSite += "<title>" + x["original_title"] + "</title>"
         file_name = str(x["id"]) + ".html"
-        individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>
-        <div id="page-wrap">"""
-        individualSite += "<h1>" + x["original_title"]
+        individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>"""
+        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="homeIcon.svg"></a></header>"""
+        individualSite += "<div id=\"page-wrap\"><h1>" + x["original_title"]
 
         try:
             individualSite += "<span class=\"inline-text\">" + y["Genre"] + "</span></h1>"
@@ -266,7 +278,7 @@ def build_individual_site(j):
                 individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k[
                     "Value"] + "</p>"
         except:
-            individualSite += "<p> No Review information found for this movie"
+            individualSite += "<p> No Review information found for " + x["original_title"] + "</p>"
             print("Error on Ratings for: " + x["original_title"])
 
         try:
@@ -275,12 +287,12 @@ def build_individual_site(j):
         except:
             print("Error on youtube link for : " + x["original_title"])
 
-        individualSite += """
+        individualSite += """</div>
             <!-- The Modal -->
             <div id="videoModal" class="modal" >
                 <!-- Modal content -->
                 <div class="modal-content">
-                    <span class="close">&times;</span>
+                    <span class="close"></span>
                     <div class="video-container">
                         <iframe id="youtubeVideo" width="100%" height="100%" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
@@ -319,7 +331,7 @@ def build_individual_site(j):
                 iframe.src = ""; // Stop the video
             }
         }
-            </script></div></body></html>"""
+            </script></body></html>"""
         file_path = os.path.join(folder_name, file_name)
         try:
 
