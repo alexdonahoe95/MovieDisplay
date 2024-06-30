@@ -51,7 +51,7 @@ def build_poster_site(j):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Display: Posters</title>
+    <title>Posters</title>
     <style>
         .responsive-image {
             width: 24.5vw; /* 25% of the viewport width */
@@ -120,7 +120,24 @@ def build_individual_site(j):
                   left: 0;
                 }
                 .button {
-  background-color: #04AA6D; /* Green */
+                border: none;
+  background-color: black; /* red */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 30%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+                .button:hover {
+  background-color:#04AA6D ; /* green */
   border: none;
   color: black;
   padding: 16px 32px;
@@ -131,21 +148,26 @@ def build_individual_site(j):
   margin: 4px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
-  width: 100%;
+  width: 30%;
   border-radius: 10px;
   font-weight: bold;
 }
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 
 
                 #page-wrap {
+                  animation: animatetop 0.4s;
                   position: relative;
                   margin: 50px auto;
                   width: 40%;
                   border-radius: 25px;
                   /* margin: 50px auto;  */
-                  opacity: 0.85;
                   padding: 20px;
-                  background: white;
+                  background: rgba(255,255,255,.85);
                   -moz-box-shadow: 0 0 20px black;
                   -webkit-box-shadow: 0 0 20px black;
                   box-shadow: 0 0 20px black;
@@ -226,7 +248,42 @@ header {
 }
 
 .home-button:hover {
-    background-color: #0056b3;
+    background-color: #04AA6D;
+}
+.trailer-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 90px;
+    height: 51.6px;
+}
+.trailer-button:hover {
+    border: none;
+    background-color: #04AA6D;
+}
+.toggle-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    background-color: green;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 170px;
+    height: 51.6px;
+}
+
+.toggle-button:hover {
+    border: none;   
+    background-color: #04AA6D;
 }
                @media screen and (max-width: 1024px) { /* Specific to this particular image */
                .modal-content {
@@ -248,7 +305,7 @@ header {
         individualSite += "<title>" + x["original_title"] + "</title>"
         file_name = str(x["id"]) + ".html"
         individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>"""
-        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="homeIcon.svg"></a></header>"""
+        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"showinfo.svg\"></button></header>"""
         individualSite += "<div id=\"page-wrap\"><h1>" + x["original_title"]
 
         try:
@@ -283,11 +340,11 @@ header {
 
         try:
             youtubeLink = "https://www.youtube.com/embed/" + z['trailer']['youtube_video_id']
-            individualSite += """    <button id="openModalBtn" class="button">Watch The Trailer</button>"""
+            individualSite += """ <div class="center">"""
         except:
             print("Error on youtube link for : " + x["original_title"])
 
-        individualSite += """</div>
+        individualSite += """</div>            </div>
             <!-- The Modal -->
             <div id="videoModal" class="modal" >
                 <!-- Modal content -->
@@ -298,6 +355,7 @@ header {
                     </div>
                 </div>
             </div>
+
         
                 <script>
                 // Get the modal
@@ -331,6 +389,18 @@ header {
                 iframe.src = ""; // Stop the video
             }
         }
+        document.getElementById("toggleButton").addEventListener("click", function() {
+            var myDiv = document.getElementById("page-wrap");
+            if (myDiv.style.display === "none") {
+                myDiv.style.display = "block";
+                this.innerHTML = '<img style="height: 28px;" src="showinfo.svg">';
+                document.getElementById("toggleButton").style = "background-color: green";
+            } else {
+                myDiv.style.display = "none";
+                this.innerHTML = '<img style="height: 28px;" src="showinfo.svg">';
+                document.getElementById("toggleButton").style = "background-color: red";
+            }
+            });
             </script></body></html>"""
         file_path = os.path.join(folder_name, file_name)
         try:
