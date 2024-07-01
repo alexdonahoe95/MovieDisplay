@@ -1,12 +1,9 @@
 change background based on mobile = poster, desktop = backdrop
     - would have to alter where this is set, not impossible just reoder
-get rid of trailer button if no trailer
 animate the information leaving
 Code cleanup
 click off hitbox fix
-add images to github?
 
 Stretch:
-have text box be minimizable
 able to move text box to corners of the page
 code to clear website folder so unused pages don't clog it up????

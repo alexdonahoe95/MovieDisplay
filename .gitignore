@@ -1,1 +1,4 @@
-/website
+#ignore most of folder
+website/*
+#don't ignore this
+!website/files

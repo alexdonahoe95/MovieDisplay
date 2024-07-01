@@ -10,20 +10,6 @@ from bs4 import BeautifulSoup
 PosterPath = "https://image.tmdb.org/t/p/original/"
 folder_name = "website"
 
-
-def web_scrape(name):
-    # Making a GET request
-    r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
-
-    # Parsing the HTML
-    soup = BeautifulSoup(r.content, 'html.parser')
-
-    s = soup.find('div', class_='text')
-    content = s.find_all('p')
-
-    # print(content)
-
-
 def api_movie():
     url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&region=US"
 
@@ -100,204 +86,7 @@ def build_individual_site(j):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>
-                .responsive-image {
-                    width: 24.5vw; /* 25% of the viewport width */
-                    height: auto; /* Adjust height automatically to maintain aspect ratio */
-                }
-                                img.bg {
-                  /* Set rules to fill background */
-                  min-height: 100%;
-                  min-width: 1024px;
-
-                  /* Set up proportionate scaling */
-                  width: 100%;
-                  height: auto;
-
-                  /* Set up positioning */
-                  position: fixed;
-                  top: 0;
-                  left: 0;
-                }
-                .button {
-                border: none;
-  background-color: black; /* red */
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  width: 30%;
-  border-radius: 10px;
-  font-weight: bold;
-}
-                .button:hover {
-  background-color:#04AA6D ; /* green */
-  border: none;
-  color: black;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  width: 30%;
-  border-radius: 10px;
-  font-weight: bold;
-}
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  }
-
-
-                #page-wrap {
-                  animation: animatetop 0.4s;
-                  position: relative;
-                  margin: 50px auto;
-                  width: 40%;
-                  border-radius: 25px;
-                  /* margin: 50px auto;  */
-                  padding: 20px;
-                  background: rgba(255,255,255,.85);
-                  -moz-box-shadow: 0 0 20px black;
-                  -webkit-box-shadow: 0 0 20px black;
-                  box-shadow: 0 0 20px black;
-                }
-		            p { font: 15px/2 Georgia, Serif;
-                  margin: 10px 0 30px 0;
-                  }
-                  
-                  .inline-text {
-                    display: inline;
-                    margin-left: 10px; /* Adjust the spacing as needed */
-                    font: 15px/2 Georgia, Serif;
-
-               }
-               /* Modal styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    margin: auto;
-    padding: 0;
-    width: 80%;
-    max-width: 700px; /* Could be more or less, depending on screen size */
-    animation: animatetop 0.4s;
-    height: 66%;
-}
-
-/* Add Animation */
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-}
-
-/* Close button */
-.close {
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.video-container {
-    padding: 20px;
-    text-align: center;
-    height: 65%;
-}
-header {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-}
-
-.home-button {
-    text-decoration: none;
-    color: white;
-    background-color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.home-button:hover {
-    background-color: #04AA6D;
-}
-.trailer-button {
-    border: none;
-    text-decoration: none;
-    color: white;
-    background-color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    left: 90px;
-    height: 51.6px;
-}
-.trailer-button:hover {
-    border: none;
-    background-color: #04AA6D;
-}
-.toggle-button {
-    border: none;
-    text-decoration: none;
-    color: white;
-    background-color: green;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    left: 170px;
-    height: 51.6px;
-}
-
-.toggle-button:hover {
-    border: none;   
-    background-color: #04AA6D;
-}
-               @media screen and (max-width: 1024px) { /* Specific to this particular image */
-               .modal-content {
-                    height:33%
-               }
-                #page-wrap{
-                    width:90%;
-                }
-                  img.bg {
-                    left: 50%;
-                    margin-left: -512px;   /* 50% */
-                  }
-                }
-            </style>
+            <link rel="stylesheet" href="files/individualStyle.css">
         </head>
         <body style="background-image: url(""" + PosterPath + x["backdrop_path"] + """);">"""
 
@@ -305,7 +94,7 @@ header {
         individualSite += "<title>" + x["original_title"] + "</title>"
         file_name = str(x["id"]) + ".html"
         individualSite += """        <img class="bg" src=""" + PosterPath + x["backdrop_path"] + """>"""
-        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"showinfo.svg\"></button></header>"""
+        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="files/homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"files/trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"files/showinfo.svg\"></button></header>"""
         individualSite += "<div id=\"page-wrap\"><h1>" + x["original_title"]
 
         try:
@@ -342,6 +131,7 @@ header {
             youtubeLink = "https://www.youtube.com/embed/" + z['trailer']['youtube_video_id']
             individualSite += """ <div class="center">"""
         except:
+            youtubeLink = ""
             print("Error on youtube link for : " + x["original_title"])
 
         individualSite += """</div>            </div>
@@ -355,53 +145,7 @@ header {
                     </div>
                 </div>
             </div>
-
-        
-                <script>
-                // Get the modal
-        var modal = document.getElementById("videoModal");
-        
-        // Get the button that opens the modal
-        var btn = document.getElementById("openModalBtn");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        
-        // Get the YouTube iframe
-        var iframe = document.getElementById("youtubeVideo");
-        
-        // When the user clicks the button, open the modal
-        btn.onclick = function() {
-            modal.style.display = "block";
-            iframe.src = """ + "\"" + youtubeLink + "\"" + """; // Replace VIDEO_ID with your actual video ID
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-            iframe.src = ""; // Stop the video
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                iframe.src = ""; // Stop the video
-            }
-        }
-        document.getElementById("toggleButton").addEventListener("click", function() {
-            var myDiv = document.getElementById("page-wrap");
-            if (myDiv.style.display === "none") {
-                myDiv.style.display = "block";
-                this.innerHTML = '<img style="height: 28px;" src="showinfo.svg">';
-                document.getElementById("toggleButton").style = "background-color: green";
-            } else {
-                myDiv.style.display = "none";
-                this.innerHTML = '<img style="height: 28px;" src="showinfo.svg">';
-                document.getElementById("toggleButton").style = "background-color: red";
-            }
-            });
-            </script></body></html>"""
+            <p id=\"youtubelinksrc\"  style="display: none;">""" + youtubeLink + "<p> <script src=\"files/movieScript.js\"></script></body></html>"
         file_path = os.path.join(folder_name, file_name)
         try:
 

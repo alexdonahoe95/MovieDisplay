@@ -1,0 +1,209 @@
+                .responsive-image {
+                    width: 24.5vw; /* 25% of the viewport width */
+                    height: auto; /* Adjust height automatically to maintain aspect ratio */
+                }
+                                img.bg {
+                  /* Set rules to fill background */
+                  min-height: 100%;
+                  min-width: 1024px;
+
+                  /* Set up proportionate scaling */
+                  width: 100%;
+                  height: auto;
+
+                  /* Set up positioning */
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                }
+                .button {
+                border: none;
+  background-color: black; /* red */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 30%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+                .button:hover {
+  background-color:#04AA6D ; /* green */
+  border: none;
+  color: black;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  width: 30%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+
+                #page-wrap {
+                  animation: animatetop 0.4s;
+                  position: relative;
+                  margin: 50px auto;
+                  width: 40%;
+                  border-radius: 25px;
+                  /* margin: 50px auto;  */
+                  padding: 20px;
+                  background: rgba(255,255,255,.85);
+                  -moz-box-shadow: 0 0 20px black;
+                  -webkit-box-shadow: 0 0 20px black;
+                  box-shadow: 0 0 20px black;
+                }
+		            p { font: 15px/2 Georgia, Serif;
+                  margin: 10px 0 30px 0;
+                  }
+
+                  .inline-text {
+                    display: inline;
+                    margin-left: 10px; /* Adjust the spacing as needed */
+                    font: 15px/2 Georgia, Serif;
+
+               }
+               /* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 80%;
+    max-width: 700px; /* Could be more or less, depending on screen size */
+    animation: animatetop 0.4s;
+    height: 66%;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Close button */
+.close {
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-container {
+    padding: 20px;
+    text-align: center;
+    height: 65%;
+}
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+}
+
+.home-button {
+    text-decoration: none;
+    color: white;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.home-button:hover {
+    background-color: #04AA6D;
+}
+.no-trailer-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    background-color: red;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 90px;
+    height: 51.6px;
+}
+.trailer-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 90px;
+    height: 51.6px;
+}
+.trailer-button:hover {
+    border: none;
+    background-color: #04AA6D;
+}
+.toggle-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    background-color: green;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 170px;
+    height: 51.6px;
+}
+
+.toggle-button:hover {
+    border: none;
+    background-color: #04AA6D;
+}
+               @media screen and (max-width: 1024px) { /* Specific to this particular image */
+               .modal-content {
+                    height:33%
+               }
+                #page-wrap{
+                    width:90%;
+                }
+                  img.bg {
+                    left: 50%;
+                    margin-left: -512px;   /* 50% */
+                  }
+                }
