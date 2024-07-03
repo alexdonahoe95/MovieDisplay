@@ -1,4 +1,5 @@
 #ignore most of folder
+.env
 website/*
 #don't ignore this
 !website/files

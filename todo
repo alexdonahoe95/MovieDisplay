@@ -1,7 +1,7 @@
 change background based on mobile = poster, desktop = backdrop
     - would have to alter where this is set, not impossible just reoder
 animate the information leaving
-Code cleanup
+Code cleanup - readability
 click off hitbox fix
 
 Stretch:

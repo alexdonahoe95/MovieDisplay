@@ -1,4 +1,4 @@
-                // Get the modal
+        // Get the modal
         var modal = document.getElementById("videoModal");
 
         // Get the button that opens the modal
@@ -13,7 +13,7 @@
         // When the user clicks the button, open the modal
         window.onload = function() {
             if(document.getElementById("youtubelinksrc").textContent == "")
-                document.getElementById("openModalBtn").style.backgroundColor = 'red';
+                document.getElementById("openModalBtn").style.backgroundColor = '#8C92AC';
 
         };
         btn.onclick = function() {
@@ -41,14 +41,14 @@
             }
         }
         document.getElementById("toggleButton").addEventListener("click", function() {
-            var myDiv = document.getElementById("page-wrap");
-            if (myDiv.style.display === "none") {
-                myDiv.style.display = "block";
+            var infoDiv = document.getElementById("page-wrap");
+            if (infoDiv.style.display === "none") {
+                infoDiv.style.display = "block";
                 this.innerHTML = '<img style="height: 28px;" src="files/showinfo.svg">';
                 document.getElementById("toggleButton").style = "background-color: green";
             } else {
-                myDiv.style.display = "none";
+                infoDiv.style.display = "none";
                 this.innerHTML = '<img style="height: 28px;" src="files/showinfo.svg">';
                 document.getElementById("toggleButton").style = "background-color: red";
             }
-            });
+        });
