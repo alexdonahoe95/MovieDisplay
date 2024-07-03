@@ -9,7 +9,7 @@ PosterPath = "https://image.tmdb.org/t/p/original/"
 folder_name = "website"
 
 def api_movie():
-    #api for finding movies playing in the united states
+    #api for finding movies playing in region united states
     url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&region=US"
 
     #get api key
@@ -57,6 +57,7 @@ def build_poster_site(theatreMovies):
         posterSite += "<a href=" + str(movie["id"]) + ".html""><img src=" + PosterPath + movie["poster_path"] + "alt=\"Description of image\" class=\"responsive-image\"></a>"
 
     posterSite += "</body></html>"
+
     file_path = os.path.join(folder_name, file_name)
     with open(file_path, 'w') as file:
         file.write(posterSite)
@@ -68,16 +69,17 @@ def build_individual_site(theatreMovies):
     api_key_omdb = os.getenv('API_KEY_OMDB')
     for movie in theatreMovies:
         file_name = str(movie["id"]) + ".html"
-
+        #Api for more movie info and review info
         r = requests.get('http://www.omdbapi.com/?t=' + movie["original_title"] + '&apikey=' + api_key_omdb)
 
         # Parsing the HTML
-        y = json.loads(r.text)
+        omdb = json.loads(r.text)
 
+        #Api for trailers
         q = requests.get('https://api.kinocheck.de/movies?tmdb_id=' + str(movie["id"]) + '&categories=Trailer')
 
         # Parsing the HTML
-        z = json.loads(q.text)
+        kinoTrailers = json.loads(q.text)
 
         individualSite = """<!DOCTYPE html>
         <html lang="en">
@@ -87,9 +89,9 @@ def build_individual_site(theatreMovies):
             <link rel="stylesheet" href="files/individualStyle.css">
         </head>"""
 
+        #Background image
         try:
-            individualSite += """<body style="background-image: url(""" + PosterPath + movie["backdrop_path"] + """);">"""
-            individualSite += """<img class="bg" src=""" + PosterPath + movie["backdrop_path"] + """>"""
+            individualSite += """<body> <img class="bg" src=""" + PosterPath + movie["backdrop_path"] + """>"""
         except:
             print("Error on backdrop for :" + movie["original_title"])
             individualSite += "<body style=\"background-color:black\">"
@@ -102,26 +104,27 @@ def build_individual_site(theatreMovies):
         individualSite += "<div id=\"page-wrap\"><h1>" + movie["original_title"]
 
         try:
-            individualSite += "<span class=\"inline-text\">" + y["Genre"] + "</span></h1>"
+            individualSite += "<span class=\"inline-text\">" + omdb["Genre"] + "</span></h1>"
         except:
+            individualSite += "</h1>"
             print("Error on Genre for : " + movie["original_title"])
-        individualSite += "</h1>"
+
 
         try:
-            individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + y[
-                "Rated"] + " | Runtime: " + y["Runtime"] + "</p>"
+            individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + omdb[
+                "Rated"] + " | Runtime: " + omdb["Runtime"] + "</p>"
         except:
             print("Error on Rated or Runtime for : " + movie["original_title"])
 
         ##add overview paragraph
         individualSite += "<p>" + movie["overview"] + "</p>"
         try:
-            individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + y[
-                "Director"] + " | Written By: " + y["Writer"] + "</p>"
+            individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + omdb[
+                "Director"] + " | Written By: " + omdb["Writer"] + "</p>"
         except:
             print("Error on Director or Writer for : " + movie["original_title"])
         try:
-            rating = y["Ratings"]
+            rating = omdb["Ratings"]
             individualSite += "<hr></hr>"
             for k in rating:
                 individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k[
@@ -131,7 +134,7 @@ def build_individual_site(theatreMovies):
             print("Error on Ratings for: " + movie["original_title"])
 
         try:
-            youtubeLink = "https://www.youtube.com/embed/" + z['trailer']['youtube_video_id']
+            youtubeLink = "https://www.youtube.com/embed/" + kinoTrailers['trailer']['youtube_video_id']
             individualSite += """ <div class="center">"""
         except:
             youtubeLink = ""
