@@ -1,8 +1,9 @@
-from dotenv import load_dotenv
+
 import json
 import os
 import requests
 
+from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
 PosterPath = "https://image.tmdb.org/t/p/original/"
@@ -70,7 +71,8 @@ def build_individual_site(theatreMovies):
     for movie in theatreMovies:
         file_name = str(movie["id"]) + ".html"
         #Api for more movie info and review info
-        r = requests.get('http://www.omdbapi.com/?t=' + movie["original_title"] + '&apikey=' + api_key_omdb)
+        #movie["original_title"]
+        r = requests.get('http://www.omdbapi.com/?t=' + movie["title"] + '&apikey=' + api_key_omdb)
 
         # Parsing the HTML
         omdb = json.loads(r.text)
@@ -93,28 +95,28 @@ def build_individual_site(theatreMovies):
         try:
             individualSite += """<body> <img class="bg" src=""" + PosterPath + movie["backdrop_path"] + """>"""
         except:
-            print("Error on backdrop for :" + movie["original_title"])
+            print("Error on backdrop for :" + movie["title"])
             individualSite += "<body style=\"background-color:black\">"
 
 
-        individualSite += "<title>" + movie["original_title"] + "</title>"
+        individualSite += "<title>" + movie["title"] + "</title>"
 
         individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="files/homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"files/trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"files/showinfo.svg\"></button></header>"""
 
-        individualSite += "<div id=\"page-wrap\"><h1>" + movie["original_title"]
+        individualSite += "<div id=\"page-wrap\"><h1>" + movie["title"]
 
         try:
             individualSite += "<span class=\"inline-text\">" + omdb["Genre"] + "</span></h1>"
         except:
             individualSite += "</h1>"
-            print("Error on Genre for : " + movie["original_title"])
+            print("Error on Genre for : " + movie["title"])
 
 
         try:
             individualSite += "<p style=\"text-indent: 40px;margin: -34px 0 0 0;\">" + "Rated: " + omdb[
                 "Rated"] + " | Runtime: " + omdb["Runtime"] + "</p>"
         except:
-            print("Error on Rated or Runtime for : " + movie["original_title"])
+            print("Error on Rated or Runtime for : " + movie["title"])
 
         ##add overview paragraph
         individualSite += "<p>" + movie["overview"] + "</p>"
@@ -122,7 +124,7 @@ def build_individual_site(theatreMovies):
             individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + "Directed By: " + omdb[
                 "Director"] + " | Written By: " + omdb["Writer"] + "</p>"
         except:
-            print("Error on Director or Writer for : " + movie["original_title"])
+            print("Error on Director or Writer for : " + movie["title"])
         try:
             rating = omdb["Ratings"]
             individualSite += "<hr></hr>"
@@ -130,15 +132,15 @@ def build_individual_site(theatreMovies):
                 individualSite += "<p style=\"text-indent: 0px;margin: 0 0 0 0;\">" + k["Source"] + ": " + k[
                     "Value"] + "</p>"
         except:
-            individualSite += "<p> No Review information found for " + movie["original_title"] + "</p>"
-            print("Error on Ratings for: " + movie["original_title"])
+            individualSite += "<p> No Review information found for " + movie["title"] + "</p>"
+            print("Error on Ratings for: " + movie["title"])
 
         try:
             youtubeLink = "https://www.youtube.com/embed/" + kinoTrailers['trailer']['youtube_video_id']
-            individualSite += """ <div class="center">"""
+            individualSite += "<div class=\"center\">"
         except:
             youtubeLink = ""
-            print("Error on youtube link for : " + movie["original_title"])
+            print("Error on youtube link for : " + movie["title"])
 
         individualSite += """</div></div>
             <!-- The Modal -->
@@ -157,7 +159,7 @@ def build_individual_site(theatreMovies):
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(individualSite)
         except:
-            print("Error for file_path : " + movie["original_title"])
+            print("Error for file_path : " + movie["title"])
 
 if __name__ == '__main__':
     # Check if the folder exists, if not, create it
