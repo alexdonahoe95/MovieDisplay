@@ -44,11 +44,9 @@
             var infoDiv = document.getElementById("page-wrap");
             if (infoDiv.style.display === "none") {
                 infoDiv.style.display = "block";
-                this.innerHTML = '<img style="height: 28px;" src="files/showinfo.svg">';
-                document.getElementById("toggleButton").style = "background-color: green";
+                this.innerHTML = '<img style="height: 28px;" src="files/up.svg">';
             } else {
                 infoDiv.style.display = "none";
-                this.innerHTML = '<img style="height: 28px;" src="files/showinfo.svg">';
-                document.getElementById("toggleButton").style = "background-color: red";
+                this.innerHTML = '<img style="height: 28px;" src="files/down.svg">';
             }
         });

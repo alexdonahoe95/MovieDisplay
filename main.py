@@ -101,7 +101,7 @@ def build_individual_site(theatreMovies):
 
         individualSite += "<title>" + movie["title"] + "</title>"
 
-        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="files/homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"files/trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"files/showinfo.svg\"></button></header>"""
+        individualSite += """<header><a href="index.html" class="home-button"><img style="height: 28px;" src="files/homeIcon.svg"></a> <button id=\"openModalBtn\" class=\"trailer-button\"><img style=\"height: 28px;\" src=\"files/trailerIcon.svg\"></a></button><button id=\"toggleButton\" class=\"toggle-button\"><img style=\"height: 28px;\" src=\"files/up.svg\"></button></header>"""
 
         individualSite += "<div id=\"page-wrap\"><h1>" + movie["title"]
 
